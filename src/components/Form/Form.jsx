@@ -60,11 +60,8 @@ function Form({ onSubmit }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  contacts: state.contacts.items,
-});
 const mapDispatchToProrps = (dispatch) => ({
   onSubmit: (name, number) =>
     dispatch(actions.addContact(name, number)),
 });
-export default connect(mapStateToProps, mapDispatchToProrps)(Form);
+export default connect(null, mapDispatchToProrps)(Form);
