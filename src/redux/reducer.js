@@ -10,7 +10,7 @@ const items = createReducer(initialState, {
       (contact) => contact.name.toLowerCase() === dataLowerCase
     );
     if (itemToFind) {
-      alert(`${itemToFind.name} is already in contacts`);
+      alert(`Ty SHo, ${itemToFind.name} is already in contacts`);
       return state;
     } else {
       return [...state, payload];
