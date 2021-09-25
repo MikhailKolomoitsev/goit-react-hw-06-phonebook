@@ -3,7 +3,6 @@ import { createReducer } from "@reduxjs/toolkit";
 import actions from "./actions";
 
 const initialState = JSON.parse(window.localStorage.getItem("contacts")) ?? [];
-
 const items = createReducer(initialState, {
   [actions.addContact]: (state, { payload }) => {
     const dataLowerCase = payload.name.toLowerCase();
