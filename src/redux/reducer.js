@@ -1,35 +1,30 @@
 import { combineReducers } from "redux";
-import types from "./types";
+import { createReducer } from "@reduxjs/toolkit";
+import actions from "./actions";
+
 const initialState = JSON.parse(window.localStorage.getItem("contacts")) ?? [];
-const items = (state = initialState, { type, payload }) => {
-  switch (type) {
-    case types.ADD:
-      const dataLowerCase = payload.name.toLowerCase();
-      const itemToFind = state.find(
-        (contact) => contact.name.toLowerCase() === dataLowerCase
-      );
-      if (itemToFind) {
-        alert(`${itemToFind.name} is already in contacts`);
-        return state;
-      } else {
-        return [...state, payload];
-      }
 
-    case types.DELETE:
-      return state.filter(({ id }) => id !== payload);
-    default:
+const items = createReducer(initialState, {
+  [actions.addContact]: (state, { payload }) => {
+    const dataLowerCase = payload.name.toLowerCase();
+    const itemToFind = state.find(
+      (contact) => contact.name.toLowerCase() === dataLowerCase
+    );
+    if (itemToFind) {
+      alert(`${itemToFind.name} is already in contacts`);
       return state;
-  }
-};
+    } else {
+      return [...state, payload];
+    }
+  },
+  [actions.deleteContact]: (state, { payload }) => {
+    return state.filter(({ id }) => id !== payload);
+  },
+});
 
-const filter = (state = "", { type, payload }) => {
-  switch (type) {
-    case types.CHANGE_FILTER:
-      return payload;
-    default:
-      return state;
-  }
-};
+const filter = createReducer("", {
+  [actions.changeFilter]: (state, { payload }) => payload,
+});
 
 export default combineReducers({
   items,
