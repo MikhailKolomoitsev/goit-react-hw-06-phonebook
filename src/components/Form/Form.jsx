@@ -1,38 +1,24 @@
-import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid"
-import { connect } from "react-redux";
-import actions from "../../redux/actions";
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import actions from '../../redux/actions'
 
 function Form({ onSubmit }) {
   const [name, setName] = useState('')
   const [number, setNumber] = useState('')
-
-  const nameInputId = uuidv4();
-  const numberInputID = uuidv4();
-
-  const handleNameChange = (e) => {
-    setName(e.currentTarget.value);
-  };
-  const handleNumberChange = (e) => {
-    setNumber(e.currentTarget.value);
-  };
-
-
+  const handleNameChange = (e) => setName(e.currentTarget.value)
+  const handleNumberChange = (e) => setNumber(e.currentTarget.value)
   const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit({ id: uuidv4(), name: name, number: number });
-    setName("");
-    setNumber("");
-  };
-
-
+    e.preventDefault()
+    onSubmit({ name, number })
+    setName('')
+    setNumber('')
+  }
   return (
     <form type="submit" onSubmit={handleSubmit}>
-      <label htmlFor={nameInputId}>
+      <label>
         Name
         <input
           value={name}
-          id={nameInputId}
           type="text"
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -41,11 +27,10 @@ function Form({ onSubmit }) {
           onChange={handleNameChange}
         />
       </label>
-      <label htmlFor={numberInputID}>
+      <label>
         Number
         <input
           value={number}
-          id={numberInputID}
           type="tel"
           name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -54,14 +39,11 @@ function Form({ onSubmit }) {
           onChange={handleNumberChange}
         />
       </label>
-
       <button type="submit">Add contact</button>
     </form>
-  );
+  )
 }
-
 const mapDispatchToProrps = (dispatch) => ({
-  onSubmit: (name, number) =>
-    dispatch(actions.addContact(name, number)),
-});
-export default connect(null, mapDispatchToProrps)(Form);
+  onSubmit: (obj) => dispatch(actions.addContact(obj)),
+})
+export default connect(null, mapDispatchToProrps)(Form)
